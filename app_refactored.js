@@ -4,24 +4,12 @@ const fs = require('fs');
 
 //middleware for post req body
 app.use(express.json());
-
-// app.get('/', (req, res) => {
-//     res.status(200).json({
-//         message: "hello from server side"
-//     })
-// })
-//
-// app.post('/', (req, res) => {
-//     res.status(200).json({
-//         message: "hello from post response"
-//     })
-// })
-
 //read data once before !!!!
 let tours = fs.readFileSync(`${__dirname}/data/tours-simple.json`)
 tours = JSON.parse(tours);
 
-app.get('/api/v1/tours', (req, res) => {
+// --- callbacks -----------
+const getAllTours = (req, res) => {
     res.status(200).json(
         {
             "status": "success",
@@ -32,9 +20,9 @@ app.get('/api/v1/tours', (req, res) => {
                 }
         }
     )
-})
+}
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
     const newId = tours[tours.length - 1].id + 1;
     const newTour = Object.assign(
         {
@@ -63,59 +51,62 @@ app.post('/api/v1/tours', (req, res) => {
         })
     }
 
-})
+    const getTour = (req, res) => {
 
-// -------- ID ---------------
-app.get('/api/v1/tours/:id?', (req, res) => {
+        const tourId = req.params.id * 1
 
-    const tourId = req.params.id * 1
-
-    if (tourId > tours.length) {
-        res.status(404).json(
-            {
-                "status": "not found",
-                message: 'Invalid Id'
-            }
-        )
-    }
-
-    const tour = tours.find(item => item.id === tourId)
-
-    res.status(200).json(
-        {
-            "status": "success",
-            "data":
+        if (tourId > tours.length) {
+            res.status(404).json(
                 {
-                    tour
+                    "status": "not found",
+                    message: 'Invalid Id'
                 }
+            )
         }
-    )
-})
 
-//----------- PATCH ----------
+        const tour = tours.find(item => item.id === tourId)
 
-app.patch("/api/v1/tours/:id", (req, res) => {
-})
-
-//DELETE-------------
-app.delete("/api/v1/tours/:id", (req, res) => {
-
-    if (req.params.id > tours.length) {
-        res.status(404).json(
+        res.status(200).json(
             {
-                "status": "not found",
-                message: 'Invalid Id'
+                "status": "success",
+                "data":
+                    {
+                        tour
+                    }
             }
         )
     }
 
-    res.status(204).json(
-        {
-            "status": "success",
-            data: null
+//----------ENDPOINTS --------------
+    app
+        .route('/api/v1/tours')
+        .get(getAllTours)
+        .post(createTour);
+    // app.get('/api/v1/tours', getAllTours)
+    // app.post('/api/v1/tours', createTour)
+    app.get('/api/v1/tours/:id?', getTour)
+
+    app.patch("/api/v1/tours/:id", (req, res) => {
+    })
+    app.delete("/api/v1/tours/:id", (req, res) => {
+
+        if (req.params.id > tours.length) {
+            res.status(404).json(
+                {
+                    "status": "not found",
+                    message: 'Invalid Id'
+                }
+            )
         }
-    )
-})
+
+        res.status(204).json(
+            {
+                "status": "success",
+                data: null
+            }
+        )
+    })
+}
 const port = 3000;
 app.listen(port, () => {
     console.log('App running on port ' + port)

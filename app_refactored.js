@@ -19,12 +19,12 @@ app.use((req, res, next) => {
 let tours = fs.readFileSync(`${__dirname}/data/tours-simple.json`)
 tours = JSON.parse(tours);
 
-// --- callbacks -----------
+// --- CALLBACKS -----------
 const getAllTours = (req, res) => {
     res.status(200).json(
         {
             "status": "success",
-            "requestedAt" : req.requestTime,
+            "requestedAt": req.requestTime,
             "results": tours.length,
             "data":
                 {
@@ -62,63 +62,109 @@ const createTour = (req, res) => {
             message: e.message
         })
     }
+}
+const getTour = (req, res) => {
 
-    const getTour = (req, res) => {
+    const tourId = req.params.id * 1
 
-        const tourId = req.params.id * 1
-
-        if (tourId > tours.length) {
-            res.status(404).json(
-                {
-                    "status": "not found",
-                    message: 'Invalid Id'
-                }
-            )
-        }
-
-        const tour = tours.find(item => item.id === tourId)
-
-        res.status(200).json(
+    if (tourId > tours.length) {
+        res.status(404).json(
             {
-                "status": "success",
-                "data":
-                    {
-                        tour
-                    }
+                "status": "not found",
+                message: 'Invalid Id'
             }
         )
     }
 
-//----------ENDPOINTS --------------
-    app
-        .route('/api/v1/tours')
-        .get(getAllTours)
-        .post(createTour);
-    // app.get('/api/v1/tours', getAllTours)
-    // app.post('/api/v1/tours', createTour)
-    app.get('/api/v1/tours/:id?', getTour)
+    const tour = tours.find(item => item.id === tourId)
 
-    app.patch("/api/v1/tours/:id", (req, res) => {
-    })
-    app.delete("/api/v1/tours/:id", (req, res) => {
-
-        if (req.params.id > tours.length) {
-            res.status(404).json(
+    res.status(200).json(
+        {
+            "status": "success",
+            "data":
                 {
-                    "status": "not found",
-                    message: 'Invalid Id'
+                    tour
                 }
-            )
         }
+    )
 
-        res.status(204).json(
-            {
-                "status": "success",
-                data: null
-            }
-        )
+}
+
+function getAllUsers(req, res){
+    res.status(500).json({
+        status: 'error',
+        message : "Route not defined"
     })
 }
+function getUser(req, res){
+    res.status(500).json({
+        status: 'error',
+        message : "Route not defined"
+    })
+}
+function createUser(req, res){
+    res.status(201).json({
+        status: 'ok',
+        message : "User created"
+    })
+}
+function updateUser(req, res){
+    res.status(200).json({
+        status: 'ok',
+        message : "User update"
+    })
+}
+function deleteUser(req, res){
+    res.status(204).json({
+        status: 'ok',
+        message : "deleted"
+    })
+}
+//----------ENDPOINTS --------------
+app
+    .route('/api/v1/tours')
+    .get(getAllTours)
+    .post(createTour);
+// app.get('/api/v1/tours', getAllTours)
+// app.post('/api/v1/tours', createTour)
+app.get('/api/v1/tours/:id?', getTour)
+
+app.patch("/api/v1/tours/:id", (req, res) => {
+})
+app.delete("/api/v1/tours/:id", (req, res) => {
+
+    if (req.params.id > tours.length) {
+        res.status(404).json(
+            {
+                "status": "not found",
+                message: 'Invalid Id'
+            }
+        )
+    }
+
+    res.status(204).json(
+        {
+            "status": "success",
+            data: null
+        }
+    )
+})
+
+//Creating group router with MW ExpresRouter
+const userRouter = express.Router()
+app.use("/api/v1/users", userRouter)
+
+userRouter.route('/')
+    .get(getAllUsers)
+    .post(createUser)
+userRouter.route('/:id')
+    .get(getUser)
+    .post(createUser)
+    .patch(updateUser)
+    .delete(deleteUser)
+
+
+//SERVER-----------------------
 const port = 3000;
 app.listen(port, () => {
     console.log('App running on port ' + port)

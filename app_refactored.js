@@ -4,6 +4,17 @@ const fs = require('fs');
 
 //middleware for post req body
 app.use(express.json());
+
+//custom MW with express, applies for every request, must be before all requests
+app.use((req, res, next) => {
+    console.log("HELLO FROM CUSTOM MW");
+    next();
+})
+app.use((req, res, next) => {
+    //adds this property
+    req.requestTime = new Date().toISOString()
+    next()
+})
 //read data once before !!!!
 let tours = fs.readFileSync(`${__dirname}/data/tours-simple.json`)
 tours = JSON.parse(tours);
@@ -13,6 +24,7 @@ const getAllTours = (req, res) => {
     res.status(200).json(
         {
             "status": "success",
+            "requestedAt" : req.requestTime,
             "results": tours.length,
             "data":
                 {

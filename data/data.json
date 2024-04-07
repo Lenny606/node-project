@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Terra Prime",
     "type": "Terrestrial",
     "description": "Terra Prime is a habitable planet similar to Earth. It has lush green forests, vast oceans, and diverse wildlife.",
@@ -9,6 +10,7 @@
     ]
   },
   {
+    "id":  2,
     "name": "Nova Prime",
     "type": "Gas Giant",
     "description": "Nova Prime is a massive gas giant with swirling clouds of various colors. It is home to numerous floating cities inhabited by diverse alien species.",
@@ -19,6 +21,7 @@
     ]
   },
   {
+    "id":  3,
     "name": "Asteria",
     "type": "Asteroid Belt",
     "description": "Asteria is not a planet but a dense asteroid belt rich in valuable minerals. It serves as a major mining hub for spacefaring civilizations.",
@@ -26,6 +29,7 @@
     "moons": []
   },
   {
+    "id":  4,
     "name": "Atlantis",
     "type": "Oceanic",
     "description": "Atlantis is a water-covered planet with small scattered islands. Its underwater cities are home to advanced aquatic civilizations.",

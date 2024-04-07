@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 
+const userRouter = require('./routes/userRoutes')
+
 //middleware for post req body
 app.use(express.json());
 
@@ -90,36 +92,7 @@ const getTour = (req, res) => {
 
 }
 
-function getAllUsers(req, res){
-    res.status(500).json({
-        status: 'error',
-        message : "Route not defined"
-    })
-}
-function getUser(req, res){
-    res.status(500).json({
-        status: 'error',
-        message : "Route not defined"
-    })
-}
-function createUser(req, res){
-    res.status(201).json({
-        status: 'ok',
-        message : "User created"
-    })
-}
-function updateUser(req, res){
-    res.status(200).json({
-        status: 'ok',
-        message : "User update"
-    })
-}
-function deleteUser(req, res){
-    res.status(204).json({
-        status: 'ok',
-        message : "deleted"
-    })
-}
+
 //----------ENDPOINTS --------------
 app
     .route('/api/v1/tours')
@@ -151,21 +124,23 @@ app.delete("/api/v1/tours/:id", (req, res) => {
 })
 
 //Creating group router with MW ExpresRouter
-const userRouter = express.Router()
+// const userRouter = express.Router()
+// app.use("/api/v1/users", userRouter)
+//
+// userRouter.route('/')
+//     .get(getAllUsers)
+//     .post(createUser)
+// userRouter.route('/:id')
+//     .get(getUser)
+//     .post(createUser)
+//     .patch(updateUser)
+//     .delete(deleteUser)
 app.use("/api/v1/users", userRouter)
 
-userRouter.route('/')
-    .get(getAllUsers)
-    .post(createUser)
-userRouter.route('/:id')
-    .get(getUser)
-    .post(createUser)
-    .patch(updateUser)
-    .delete(deleteUser)
+// //SERVER- moved to server.js----------------------
+// const port = 3000;
+// app.listen(port, () => {
+//     console.log('App running on port ' + port)
+// })
 
-
-//SERVER-----------------------
-const port = 3000;
-app.listen(port, () => {
-    console.log('App running on port ' + port)
-})
+module.exports = app;

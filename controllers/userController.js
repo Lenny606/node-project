@@ -1,3 +1,16 @@
+//TODO move fs here + data
+
+//MW action
+exports.checkID = (req, res, next, value) => {
+    if(req.param.id * 1 > 100){
+        return res.status(404).json({
+            stattus: "error",
+            message : "not found"
+        })
+    }
+    next()
+}
+
 //-----------------Handlers-------------------
 exports.getAllUsers = (req, res) =>{
     res.status(500).json({

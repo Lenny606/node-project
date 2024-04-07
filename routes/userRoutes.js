@@ -2,6 +2,16 @@ const express = require('express')
 const router = express.Router()
 const userController = require('./../controllers/userController')
 
+// PARAM MW ------------
+//works only for this module userRoutes
+// router.param('id', (req, res, next, value) => {
+//     console.log(`Param Id value is ${value}`)
+//     next()
+// })
+//moved to controller and refactored here
+router.param('id', userController.checkID)
+
+
 //-----------------ROUTES-------------------
 router.route('/')
     .get(userController.getAllUsers)

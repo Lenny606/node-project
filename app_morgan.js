@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     next()
 })
 
-//MORGAN MW - adds/returns log with information about reguest
+//MORGAN MW - adds/returns log with information about request
 app.use(morgan('dev'))
 
 

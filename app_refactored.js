@@ -6,6 +6,8 @@ const userRouter = require('./routes/userRoutes')
 
 //middleware for post req body
 app.use(express.json());
+//mw for serving static files from folder - overview.html in public folder
+app.use(express.static(`${__dirname}/public`))
 
 //custom MW with express, applies for every request, must be before all requests
 app.use((req, res, next) => {

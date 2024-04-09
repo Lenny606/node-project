@@ -15,7 +15,7 @@ router.param('id', userController.checkID)
 //-----------------ROUTES-------------------
 router.route('/')
     .get(userController.getAllUsers)
-    .post(userController.createUser)
+    .post(userController.checkBody, userController.createUser)
 router.route('/:id')
     .get(userController.getUser)
     .post(userController.createUser)

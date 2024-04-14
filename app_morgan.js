@@ -16,8 +16,10 @@ app.use((req, res, next) => {
     next()
 })
 
-//MORGAN MW - adds/returns log with information about request
-app.use(morgan('dev'))
+//MORGAN MW - adds/returns log with information about request + condition for dev
+if(process.env.NODE_ENV === "dev"){
+    app.use(morgan('dev'))
+}
 
 
 
@@ -127,7 +129,7 @@ const createTour = (req, res) => {
 }
 
 ///---------SERVER ------------------
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log('App running on port ' + port)
 })

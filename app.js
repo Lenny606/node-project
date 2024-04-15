@@ -116,7 +116,7 @@ app.delete("/api/v1/tours/:id", (req, res) => {
         }
     )
 })
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log('App running on port ' + port)
-})
+// const port = process.env.PORT || 3000;
+// app.listen(port, () => {
+//     console.log('App running on port ' + port)
+// })

@@ -8,7 +8,7 @@ const app = express();
 const userRouter = require('./routes/userRoutes')
 const tourRouter = require('./routes/tourRoutes')
 
-//middleware for post req body
+//MIDDLEWARES for post req body
 app.use(express.json());
 //mw for serving static files from folder - overview.html in public folder
 app.use(express.static(`${__dirname}/public`))
@@ -26,65 +26,14 @@ app.use((req, res, next) => {
     req.requestTime = new Date().toISOString()
     next()
 })
-//read data once before !!!!
-let tours = fs.readFileSync(`${__dirname}/data/tours-simple.json`)
-tours = JSON.parse(tours);
 
 // --- CALLBACKS -----------
-//separate file
-
+//in separate files
 
 //----------ENDPOINTS --------------
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/tours", tourRouter)
-// app
-//     .route('/api/v1/tours')
-//     .get(getAllTours)
-//     .post(createTour);
-// // app.get('/api/v1/tours', getAllTours)
-// // app.post('/api/v1/tours', createTour)
-// app.get('/api/v1/tours/:id?', getTour)
-//
-// app.patch("/api/v1/tours/:id", (req, res) => {
-// })
-// app.delete("/api/v1/tours/:id", (req, res) => {
-//
-//     if (req.params.id > tours.length) {
-//         res.status(404).json(
-//             {
-//                 "status": "not found",
-//                 message: 'Invalid Id'
-//             }
-//         )
-//     }
-//
-//     res.status(204).json(
-//         {
-//             "status": "success",
-//             data: null
-//         }
-//     )
-// })
-
-//Creating group router with MW ExpresRouter
-// const userRouter = express.Router()
-// app.use("/api/v1/users", userRouter)
-//
-// userRouter.route('/')
-//     .get(getAllUsers)
-//     .post(createUser)
-// userRouter.route('/:id')
-//     .get(getUser)
-//     .post(createUser)
-//     .patch(updateUser)
-//     .delete(deleteUser)
-
-
 
 // //SERVER- moved to server.js----------------------
-// const port = 3000;
-// app.listen(port, () => {
-//     console.log('App running on port ' + port)
-// })
 
 module.exports = app;

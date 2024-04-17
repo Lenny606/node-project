@@ -1,21 +1,24 @@
-//TODO move fs here + data
+const fs = require('fs');
+//read data once before !!!!
+let users = fs.readFileSync(`${__dirname}/../data/users.json`)
+users = JSON.parse(users);
 
 //MW action
 exports.checkID = (req, res, next, value) => {
-    if(req.param.id * 1 > 100){
+    if (req.param.id * 1 > 100) {
         return res.status(404).json({
             status: "error",
-            message : "not found"
+            message: "not found"
         })
     }
     next()
 }
 
 exports.checkBody = (req, res, next, value) => {
-    if(!req.body.name){
+    if (!req.body.name) {
         return res.status(400).json({
             status: "error",
-            message : "body => name is empty"
+            message: "body => name is empty"
         })
     }
     next()
@@ -23,33 +26,37 @@ exports.checkBody = (req, res, next, value) => {
 
 
 //-----------------Handlers-------------------
-exports.getAllUsers = (req, res) =>{
-    res.status(500).json({
-        status: 'error',
-        message : "Route not defined"
+exports.getAllUsers = (req, res) => {
+    res.status(200).json({
+        "status": 'success',
+        "requestedAt": req.requestTime,
+        "results": users.length,
+        "data": {
+            users
+        }
     })
 }
 exports.getUser = (req, res) => {
     res.status(500).json({
         status: 'error',
-        message : "Route not defined"
+        message: "Route not defined"
     })
 }
-exports.createUser = (req, res) =>{
+exports.createUser = (req, res) => {
     res.status(201).json({
         status: 'ok',
-        message : "User created"
+        message: "User created"
     })
 }
-exports.updateUser = (req, res) =>{
+exports.updateUser = (req, res) => {
     res.status(200).json({
         status: 'ok',
-        message : "User update"
+        message: "User update"
     })
 }
-exports.deleteUser = (req, res) =>{
+exports.deleteUser = (req, res) => {
     res.status(204).json({
         status: 'ok',
-        message : "deleted"
+        message: "deleted"
     })
 }

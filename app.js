@@ -17,9 +17,9 @@ app.use(express.json());
 //     })
 // })
 
-//read data once before !!!!
-let tours = fs.readFileSync(`${__dirname}/data/tours-simple.json`)
-tours = JSON.parse(tours);
+// //read data once before !!!!
+// let tours = fs.readFileSync(`${__dirname}/data/tours-simple.json`)
+// tours = JSON.parse(tours);
 
 app.get('/api/v1/tours', (req, res) => {
     res.status(200).json(

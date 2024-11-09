@@ -38,8 +38,19 @@ readFilePromise(breed).then(data => {
 }).then(() => {
     console.log('Data saved successfully!');
 }).catch(error => {
-    console.error(error );
+    console.error(error);
 })
+
+//using async/await
+async function fetchAndSaveDogImages() {
+    try {
+        const data = await readFilePromise(breed);
+        const res = await superagent.get('https://dog.ceo/api/breed/' + data + '/images/random');
+        await writeFilePromise(file, res.body.message);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 
 //Only Consumes Promise

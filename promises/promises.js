@@ -39,7 +39,9 @@ readFilePromise(breed).then(data => {
     console.log('Data saved successfully!');
 }).catch(error => {
     console.error(error);
+    throw error;
 })
+//await Promise.all() for multiple promises
 
 //using async/await
 async function fetchAndSaveDogImages() {
